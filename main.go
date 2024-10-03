@@ -53,6 +53,22 @@ func readCSV(filename string) ([]map[string]string, error) {
 	return data, nil
 }
 
+func getRelevantFields(data []map[string]string, fields []string) []map[string]string {
+
+	var outputSlice []map[string]string
+	for _, item := range data {
+		relevantMap := make(map[string]string)
+		for _, field := range fields {
+			relevantMap[field] = item[field]
+		}
+		outputSlice = append(outputSlice, relevantMap)
+
+	}
+
+	return outputSlice
+
+}
+
 func main() {
 	filename := "/home/luho/Code/satm/data.csv"
 
@@ -62,10 +78,11 @@ func main() {
 	}
 
 	fmt.Printf("Loaded %d records from CSV\n", len(data))
-
+	relevantfields := []string{"Codice utente", "IdViaggiatore", "TipoViaggiatore"}
+	data = getRelevantFields(data, relevantfields)
 	if len(data) > 0 {
 		fmt.Println("Sample of the first record:")
-		jsonData, err := json.MarshalIndent(data[0], "", "  ")
+		jsonData, err := json.MarshalIndent(data[3], "", "  ")
 		if err != nil {
 			log.Fatal(err)
 		}
