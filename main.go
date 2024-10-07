@@ -22,7 +22,6 @@ func readCSV(filename string) ([]map[string]string, error) {
 	reader.LazyQuotes = true    // Allow lazy quotes
 	reader.FieldsPerRecord = -1 // Allow variable number of fields
 
-	// Read all records at once
 	records, err := reader.ReadAll()
 	if err != nil {
 		return nil, err
@@ -80,7 +79,6 @@ func idViaggiatoreBuilder(data []map[string]string) {
 		for _, value := range subsetData[i] {
 			a["IdViaggiatore"] += value
 		}
-		a["IdViaggiatore"] += "LUHO"
 	}
 
 }
@@ -95,7 +93,6 @@ func tipoViaggiatoreBuilder(data []map[string]string) {
 		for _, value := range subsetData[i] {
 			a["TipoViaggiatore"] += value
 		}
-		a["TipoViaggiatore"] += "LUHO"
 	}
 
 }
@@ -130,12 +127,14 @@ func main() {
 	}
 
 	fmt.Printf("Loaded %d records from CSV\n", len(data))
-	relevantfields := []string{"Codice utente", "IdViaggiatore", "TipoViaggiatore"}
+
 	idViaggiatoreBuilder(data)
 	tipoViaggiatoreBuilder(data)
+
+	relevantfields := []string{"Codice utente", "IdViaggiatore", "TipoViaggiatore"}
+
 	data = getRelevantFields(data, relevantfields)
 
-	// TODO: API endpoints here
 	router := gin.Default()
 	router.GET("/users", getUsers(data))
 	router.GET("/users/:CodiceUtente", getUserById(data))
