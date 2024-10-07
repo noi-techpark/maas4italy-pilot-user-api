@@ -76,6 +76,7 @@ func idViaggiatoreBuilder(data []map[string]string) {
 	subsetData := getRelevantFields(data, relevantFields)
 
 	for i, a := range data {
+		a["IdViaggiatore"] = ""
 		for _, value := range subsetData[i] {
 			a["IdViaggiatore"] += value
 		}
@@ -90,6 +91,7 @@ func tipoViaggiatoreBuilder(data []map[string]string) {
 	subsetData := getRelevantFields(data, relevantFields)
 
 	for i, a := range data {
+		a["TipoViaggiatore"] = ""
 		for _, value := range subsetData[i] {
 			a["TipoViaggiatore"] += value
 		}
