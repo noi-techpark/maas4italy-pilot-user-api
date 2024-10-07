@@ -2,10 +2,12 @@ package main
 
 import (
 	"encoding/csv"
-	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 func readCSV(filename string) ([]map[string]string, error) {
@@ -69,6 +71,12 @@ func getRelevantFields(data []map[string]string, fields []string) []map[string]s
 
 }
 
+func getUsers(data []map[string]string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.IndentedJSON(http.StatusOK, data)
+	}
+}
+
 func main() {
 	filename := "/home/luho/Code/satm/data.csv"
 
@@ -80,19 +88,10 @@ func main() {
 	fmt.Printf("Loaded %d records from CSV\n", len(data))
 	relevantfields := []string{"Codice utente", "IdViaggiatore", "TipoViaggiatore"}
 	data = getRelevantFields(data, relevantfields)
-	if len(data) > 0 {
-		fmt.Println("Sample of the first record:")
-		jsonData, err := json.MarshalIndent(data[3], "", "  ")
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(string(jsonData))
-
-		fmt.Println("\nFields in the first record:")
-		for key, value := range data[0] {
-			fmt.Printf("%s: %s\n", key, value)
-		}
-	}
 
 	// TODO: API endpoints here
+	router := gin.Default()
+	router.GET("/users", getUsers(data))
+
+	router.Run("localhost:8080")
 }
