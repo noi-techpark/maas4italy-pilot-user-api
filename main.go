@@ -77,6 +77,21 @@ func getUsers(data []map[string]string) gin.HandlerFunc {
 	}
 }
 
+func getUserById(data []map[string]string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("CodiceUtente")
+		fmt.Println("WHERE  ", id)
+
+		for _, a := range data {
+			if id == a["Codice utente"] {
+				c.IndentedJSON(http.StatusOK, a)
+				return
+			}
+		}
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
+	}
+}
+
 func main() {
 	filename := "/home/luho/Code/satm/data.csv"
 
@@ -92,6 +107,7 @@ func main() {
 	// TODO: API endpoints here
 	router := gin.Default()
 	router.GET("/users", getUsers(data))
+	router.GET("/users/:CodiceUtente", getUserById(data))
 
 	router.Run("localhost:8080")
 }
