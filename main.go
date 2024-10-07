@@ -71,6 +71,35 @@ func getRelevantFields(data []map[string]string, fields []string) []map[string]s
 
 }
 
+func idViaggiatoreBuilder(data []map[string]string) {
+
+	relevantFields := []string{"Codice NUTS PAB", "Codice azienda", "Numero viaggiatore"}
+	subsetData := getRelevantFields(data, relevantFields)
+
+	for i, a := range data {
+		for _, value := range subsetData[i] {
+			a["IdViaggiatore"] += value
+		}
+		a["IdViaggiatore"] += "LUHO"
+	}
+
+}
+
+func tipoViaggiatoreBuilder(data []map[string]string) {
+
+	relevantFields := []string{"Codice ISTAT regione", "Sigla vecchie targe auto", "Codice ISTAT PAB", "Codice ISTAT Comune domicilio",
+		"Codice ISTAT CAP domicilio", "Universo", "Genere2", "Condizione occupazione", "Professione", "Età3", "Diversa abilità4", "Altre limitazioni_NoDisabilita", "Altre limitazioni_SiDisabilita"}
+	subsetData := getRelevantFields(data, relevantFields)
+
+	for i, a := range data {
+		for _, value := range subsetData[i] {
+			a["TipoViaggiatore"] += value
+		}
+		a["TipoViaggiatore"] += "LUHO"
+	}
+
+}
+
 func getUsers(data []map[string]string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.IndentedJSON(http.StatusOK, data)
@@ -102,6 +131,8 @@ func main() {
 
 	fmt.Printf("Loaded %d records from CSV\n", len(data))
 	relevantfields := []string{"Codice utente", "IdViaggiatore", "TipoViaggiatore"}
+	idViaggiatoreBuilder(data)
+	tipoViaggiatoreBuilder(data)
 	data = getRelevantFields(data, relevantfields)
 
 	// TODO: API endpoints here
