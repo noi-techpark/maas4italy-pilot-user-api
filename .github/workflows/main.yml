@@ -33,6 +33,7 @@ jobs:
             
           X_SERVER_PORT: ${{ env.SERVER_PORT}}
           X_FILEPATH: "/users.csv"
+          X_FILEPATH_HOST: "/var/docker/${{env.PROJECT_NAME}}/shared/data.csv"
 
       - name: Build and push images
         uses: noi-techpark/github-actions/docker-build-and-push@v2
