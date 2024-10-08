@@ -144,6 +144,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/users", getUsers(data))
 	router.GET("/users/:CodiceUtente", getUserById(data))
+	router.GET("/health", func(ctx *gin.Context) { ctx.Status(http.StatusOK) })
 
 	router.Run("localhost:8080")
 }
