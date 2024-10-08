@@ -32,7 +32,7 @@ jobs:
           X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
             
           X_SERVER_PORT: ${{ env.SERVER_PORT}}
-          X_FILEPATH: ""
+          X_FILEPATH: "/users.csv"
 
       - name: Build and push images
         uses: noi-techpark/github-actions/docker-build-and-push@v2
