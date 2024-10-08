@@ -59,7 +59,6 @@ func readCSV(filename string) ([]map[string]string, error) {
 }
 
 func getRelevantFields(data []map[string]string, fields []string) []map[string]string {
-
 	var outputSlice []map[string]string
 	for _, item := range data {
 		relevantMap := make(map[string]string)
@@ -67,15 +66,12 @@ func getRelevantFields(data []map[string]string, fields []string) []map[string]s
 			relevantMap[field] = item[field]
 		}
 		outputSlice = append(outputSlice, relevantMap)
-
 	}
 
 	return outputSlice
-
 }
 
 func idViaggiatoreBuilder(data []map[string]string) {
-
 	relevantFields := []string{"Codice NUTS PAB", "Codice azienda", "Numero viaggiatore"}
 	subsetData := getRelevantFields(data, relevantFields)
 
@@ -85,11 +81,9 @@ func idViaggiatoreBuilder(data []map[string]string) {
 			a["IdViaggiatore"] += value
 		}
 	}
-
 }
 
 func tipoViaggiatoreBuilder(data []map[string]string) {
-
 	relevantFields := []string{"Codice ISTAT regione", "Sigla vecchie targe auto", "Codice ISTAT PAB", "Codice ISTAT Comune domicilio",
 		"Codice ISTAT CAP domicilio", "Universo", "Genere2", "Condizione occupazione", "Professione", "Età3", "Diversa abilità4", "Altre limitazioni_NoDisabilita", "Altre limitazioni_SiDisabilita"}
 	subsetData := getRelevantFields(data, relevantFields)
@@ -100,7 +94,6 @@ func tipoViaggiatoreBuilder(data []map[string]string) {
 			a["TipoViaggiatore"] += value
 		}
 	}
-
 }
 
 func getUsers(data []map[string]string) gin.HandlerFunc {
