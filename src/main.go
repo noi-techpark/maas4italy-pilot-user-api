@@ -10,10 +10,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 func readCSV(filename string) ([]map[string]string, error) {
@@ -127,18 +125,6 @@ func getUserById(data []map[string]string) gin.HandlerFunc {
 }
 
 func main() {
-
-	cwd, err := os.Getwd()
-	if err != nil {
-		log.Fatalf("Error getting current working directory: %v", err)
-	}
-
-	envPath := filepath.Join(cwd, "..", ".env")
-	err = godotenv.Load(envPath)
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
 	filename := os.Getenv("FILEPATH")
 
 	data, err := readCSV(filename)

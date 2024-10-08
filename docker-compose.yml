@@ -14,9 +14,6 @@ services:
       - ./src:/code
       - pkg:/go/pkg/mod
     working_dir: /code
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-      interval: 5s
     tty: true
     ports:
       - ${SERVER_PORT}:8080
