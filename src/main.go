@@ -146,5 +146,5 @@ func main() {
 	router.GET("/users/:CodiceUtente", getUserById(data))
 	router.GET("/health", func(ctx *gin.Context) { ctx.Status(http.StatusOK) })
 
-	router.Run("localhost:8080")
+	router.Run()
 }
